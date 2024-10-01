@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo</title>
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        div.form-group{
+            display: flex;
+            flex-direction: column;
+        }
+        .form-control{
+            margin-top: 20px;
+        }
+
+        .codigo {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-right: 1px;
+            
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .config-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+           .btn-salvar{
+            margin-top: 10px;
+            
+        }
+
+        .config-panel {
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1000;
+            width: 150px;
+        }
+
+        .config-panel h5 {
+            margin-bottom: 10px;
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        
+        /* Estilos para o tema dark */
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        
+        .dark-mode .conteudo-pre{
+            color: rgb(238, 227, 227);
+        }
+
+        body.dark-mode .codigo {
+            background-color: #555;
+            color: rgb(213, 18, 18);
+        }
+
+        .dark-mode .resultado-item {
+            display: inline-block;
+            width: 250px;
+            height: 100px;
+            margin: 4px;
+            vertical-align: top;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            transition: width 0.3s ease, height 0.3s ease;
+            /* Suaviza a transição */
+            position: relative;
+            border: 2px solid #6b5c58;
+            padding: 10px;
+            border-top-left-radius: 21px;
+            border-bottom-left-radius: 0px;
+            border-top-right-radius: 12px;
+            
+            border-bottom-right-radius: 21px;
+
+        }
+
+        .dark-mode .resultado-item.expanded .conteudo-pre {
+            height: 100%;
+            /* Altura ajustada ao container expandido */
+            width: 100%;
+            /* Largura ajustada ao container expandido */
+            overflow: auto;
+            /* Scrollbar horizontal e vertical */
+            white-space: normal;
+            /* Permite quebra de linha no texto longo */
+            word-wrap: break-word;
+            /* Quebra palavras muito longas */
+            background-color: #424237;
+            border: 1px solid #6f6f67;
+            border-radius: 3px;
+            color: rgb(225, 220, 220);
+            
+        }
+        .dark-mode .resultado-item .expanded{
+            border-radius: 21px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+        .resultado-item .expanded{
+            border-radius: 21px;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+        
+
+        /*comece daqui */
+        /*daqui*/
+
+        .resultado-item {
+            display: inline-block;
+            width: 250px;
+            height: 100px;
+            margin: 4px;
+            vertical-align: top;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            transition: width 0.3s ease, height 0.3s ease;
+            /* Suaviza a transição */
+            position: relative;
+            border: 2px solid #ddd;
+            padding: 10px;
+            border-radius: 21px;
+            border-bottom-left-radius: 0px;
+
+        }
+
+
+        .resultado-item img {
+            max-width: 100%;
+            max-height: 100px;
+        }
+
+        .resultado-item .conteudo-pre {
+            height: 50px;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            /* Mantém o texto em uma linha no modo miniatura */
+            text-overflow: ellipsis;
+        }
+
+        .resultado-item.expanded {
+            width: 90vw;
+            /* Expande ocupando 90% da largura da janela */
+            height: 80vh;
+            /* Expande ocupando 80% da altura da janela */
+            overflow: auto;
+            /* Permite scroll para todo o conteúdo */
+            border-bottom-right-radius: 0px;
+        }
+        .dark-mode .resultado-item.expanded {
+            width: 90vw;
+            /* Expande ocupando 90% da largura da janela */
+            height: 80vh;
+            /* Expande ocupando 80% da altura da janela */
+            overflow: auto;
+            /* Permite scroll para todo o conteúdo */
+            border-bottom-right-radius: 0px;
+        }
+
+        .resultado-item.expanded .conteudo-pre {
+            height: 100%;
+            /* Altura ajustada ao container expandido */
+            width: 100%;
+            /* Largura ajustada ao container expandido */
+            overflow: auto;
+            /* Scrollbar horizontal e vertical */
+            white-space: normal;
+            /* Permite quebra de linha no texto longo */
+            word-wrap: break-word;
+            /* Quebra palavras muito longas */
+            background-color: #f7f7f0;
+            border: 1px solid #ececea;
+            border-radius: 3px;
+
+            padding: 10px;
+            padding-right: 46px;
+        }
+
+        .resultado-item.expanded img {
+            max-height: 300px;
+            border-radius: 5px;
+        }
+
+        /* Botões de editar e excluir sempre visíveis */
+        .resultado-item .btn {
+
+            margin-bottom: 0px;
+            border-radius: 20px;
+
+
+        }
+
+        div .botoes-container {
+
+            position: absolute;
+            /* bottom: 1.5px; */
+            right: 1.5px;
+            display: inline-flex;
+            flex-direction: column;
+        }
+
+        .resultado-item .botoes-container {
+
+            position: absolute;
+            bottom: 1.5px;
+            right: 1.5px;
+
+        }
+
+
+        /*icones*/
+        /* Container para a imagem e os ícones */
+        .container-expansivel {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 600px;
+        }
+
+        /* Estiliza a imagem */
+        .expanded-content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Container dos ícones */
+        .icon-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+            margin-left: 10px;
+            height: auto;
+        }
+
+        /* Estilos dos ícones */
+        .icon-container i {
+            font-size: 2rem;
+            /* Tamanho grande dos ícones */
+            opacity: 0.7;
+            /* Transparência inicial */
+            cursor: pointer;
+            /* Mostra o ponteiro ao passar o mouse */
+            transition: opacity 0.3s ease;
+        }
+
+        .icon-container i:hover {
+            opacity: 1;
+            /* Ícones ficam opacos ao passar o mouse */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Meu Catálogo</h1>
+        
+
+
+
+        <!-- Botão de configuração no canto superior esquerdo -->
+        <div id="configButton" class="config-button">
+            <span>&#x22EE;</span>
+        </div>
+
+        
+
+        <!-- Painel de opções -->
+        <div id="configPanel" class="config-panel d-none">
+            <h5 style="color: #333;">Configurações</h5>
+            <label>
+                <input type="radio" name="theme" value="light" id="lightTheme"><span style="color: #333;">Light</span>
+            </label>
+            <label>
+                <input type="radio" name="theme" value="dark" id="darkTheme"><span style="color: #333;">Dark</span>
+            </label>
+        </div>
+
+
+
+        <!-- Formulário para adicionar ou editar códigos -->
+        <form id="formAdicionar" class="mb-4">
+            <div class="form-group">
+                <input type="text" class="form-control" id="tituloCodigo" placeholder="Título" required>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="conteudoCodigo" rows="4" placeholder="Descrição" required></textarea>
+            </div>
+            <div class="form-group">
+                <label style="margin-top: 20px ; margin-bottom: 10px;" for="imagemCodigo">Escolher Imagem (opcional)</label>
+                <input type="file" class="form-control-file" id="imagemCodigo">
+            </div>
+            <button type="submit" class="btn btn-primary btn-salvar ">Salvar</button>
+        </form>
+
+        <!-- Barra de pesquisa -->
+        <input type="text" id="barraPesquisa" class="form-control mb-4" placeholder="Digite para pesquisar...">
+        <!-- Botões de Backup e Restauração -->
+        <button id="exportarDados" class="btn btn-success mb-4">Exportar Dados</button>
+        <input type="file" id="inputImportarDados" class="form-control-file mb-4" style="display: none;">
+        <button id="importarDados" class="btn btn-info mb-4">Importar Dados</button>
+
+        <div class="resultado" id="resultadoPesquisa"></div>
+    </div>
+
+    <!-- Área para exibir mensagens de feedback -->
+    <div id="mensagemFeedback" class="alert d-none" role="alert"></div>
+
+    <!-- script no html -->
+    <!-- teste para ver se funciona -->
+
+     <!-- importar meu arquivo js -->
+    <script src="script.js"></script>
+
+    <!-- importar o bootstrap.js -->
+    <script src="bootstrap.bundle.min.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker registrado com sucesso:', registration.scope);
+                }).catch(function(error) {
+                    console.log('Falha ao registrar o Service Worker:', error);
+                });
+        }
+    </script>
+    
+</body>
+
+</html>
+
+<!-- ************************************************************************************************************** -->
+
+
+
